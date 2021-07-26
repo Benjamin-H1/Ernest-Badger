@@ -14,7 +14,9 @@ def download(files, conn):
 #   useful in the future
 # login - The login username
 # password - The password accompanying the login
-# Returns the connection for use in scanning and downloading files
+# Returns the connection for use in scanning and downloading files, in the event
+    # of failure to connect it returns false so as to alert the system of a
+    # failure to connect
 def connect(address, port, login, password):
     try:
         conn = ftplib.FTP(address, login, password)
