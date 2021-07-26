@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-This project will pull and process csv files from an FTP server
 
-It is intended to work in python
-=======
-This project will pull and process .csv files from an FTP server
->>>>>>> 70106560e4ceb3c8aebf5b831cdd0edcab4f83a3
+This project is intended to work in python, it will pull and process .csv files from an FTP server
+The FTP server is hosted on 87.115.189.50 on port 21
