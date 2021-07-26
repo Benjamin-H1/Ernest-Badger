@@ -1,10 +1,17 @@
+import ftplib
+
 def download(files, conn):
     #submit files for download
     pass
 
 def connect(address, port, login, password):
     #establishes connection with server
-    pass
+    try:
+        conn = ftplib.FTP(address, login, password)
+        return conn
+    except:
+        return False
+
 
 def gui():
     #runs the program with the graphical interface
@@ -20,3 +27,9 @@ if __name__ == '__main__':
         #password
         #date/time for scheduled download
         #date/time of data to be retrieved
+    #for now I am going to rather irresponsibly hard code the login details
+    conn = connect("87.115.189.50", "21", "roadrunner", "M33pM33p")
+    if conn == False:
+        print("Error connecting to server")
+        exit()
+    print("Connection successful!!")
