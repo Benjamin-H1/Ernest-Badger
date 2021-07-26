@@ -1,12 +1,21 @@
 import ftplib
 
+# Procedure to download all files specified
+# files - List of files on server to be downloaded
+# conn - The connection to the server to download from
 def download(files, conn):
     for filename in files:
         with open(filename, "wb") as file:
             conn.retrbinary(f"RETR {filename}", file.write)
 
+# Function to establish connection to the server
+# address - The IP address of the server
+# port - The port the server is running on. At present not required but may be
+#   useful in the future
+# login - The login username
+# password - The password accompanying the login
+# Returns the connection for use in scanning and downloading files
 def connect(address, port, login, password):
-    #establishes connection with server
     try:
         conn = ftplib.FTP(address, login, password)
         return conn
