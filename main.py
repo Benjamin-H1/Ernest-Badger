@@ -1,12 +1,16 @@
 import ftplib
+import os
 
 # Procedure to download all files specified
 # files - List of files on server to be downloaded
 # conn - The connection to the server to download from
 def download(files, conn):
+    wd = os.getcwd()
+    os.chdir(wd+"/files") #Changing the working directory to files so the files are stored in the right place
     for filename in files:
         with open(filename, "wb") as file:
             conn.retrbinary(f"RETR {filename}", file.write)
+    os.chdir(wd)
 
 # Function to establish connection to the server
 # address - The IP address of the server
@@ -45,4 +49,6 @@ if __name__ == '__main__':
         print("Error connecting to server")
         exit()
     print("Connection successful!!")
+    files = ["MED_DATA_20210701153942.csv"] #test that a file can be downloaded
+    download(files, conn)
     conn.quit()
