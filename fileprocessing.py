@@ -4,22 +4,22 @@ import os
 import shutil
 
 #Paths, change as necessary
-ZIP = ""
-TEMPDIR = ""
-DESTDIR = ""
+ZIP = "zippedFiles"
+TEMPDIR = "allFiles"
+DESTDIR = "processedFiles"
+LOGFILE = "log.txt"
 
-zippedFiles = ZIP#Insert path to zip file - ZIP
-
-with ZipFile(zippedFiles, 'r') as zip:
-    zip.extractall(TEMPDIR) #Fill this with a path to a temp directory to store all files - TEMPDIR
+for zippedFile in os.listdir(ZIP):
+    with ZipFile(zippedFile, 'r') as zip:
+        zip.extractall(TEMPDIR) #Fill this with a path to a temp directory to store all files - TEMPDIR
 
 #Keep track of error types for log
 errorTypes = ["none",
 "file not csv",
 "file contains duplicate batches",
-"batch does not contain ten readings",
-"batch contains reading outside range",
-"batch contains invalid reading"]
+"a batch does not contain ten readings",
+"a batch contains reading outside range",
+"a batch contains invalid reading"]
 #For each file in directory
 for filen in os.listdir(TEMPDIR): #Fill this with path - TEMPDIR
     faultyFile = (False, 0)
@@ -63,4 +63,6 @@ for filen in os.listdir(TEMPDIR): #Fill this with path - TEMPDIR
 
 
 def logError(filename, errortype):
-    #discuss logging errors
+    log = open(LOGFILE, "a")
+    log.write("ERROR:", filename, ":", errortype)
+    log.close()
