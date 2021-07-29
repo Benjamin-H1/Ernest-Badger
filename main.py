@@ -8,7 +8,7 @@ from datetime import date
 # conn - The connection to the server to download from
 def download(files, conn):
     wd = os.getcwd()
-    os.chdir(wd+"/files") #Changing the working directory to files so the files are stored in the right place
+    os.chdir(wd+"/allFiles") #Changing the working directory to files so the files are stored in the right place
     for filename in files:
         with open(filename, "wb") as file:
             conn.retrbinary(f"RETR {filename}", file.write)
@@ -37,7 +37,7 @@ def connect(address, port, login, password):
 # month - The month to search
 # day - The day to search
 # hour - The hour to search
-# second - The second to serach
+# second - The second to search
 def find(conn, instruction, year, month, day, hour, minute, second):
     files = []
     if instruction == "all":
