@@ -4,14 +4,15 @@ import os
 import shutil
 
 #Paths, change as necessary
-ZIP = "zippedFiles"
+#ZIP = "zippedFiles"
 TEMPDIR = "allFiles"
 DESTDIR = "processedFiles"
+FAULTDIR = "faultyFiles"
 LOGFILE = "log.txt"
 
-for zippedFile in os.listdir(ZIP):
-    with ZipFile(zippedFile, 'r') as zip:
-        zip.extractall(TEMPDIR) #Fill this with a path to a temp directory to store all files - TEMPDIR
+#for zippedFile in os.listdir(ZIP):
+#    with ZipFile(zippedFile, 'r') as zip:
+#        zip.extractall(TEMPDIR) #Fill this with a path to a temp directory to store all files - TEMPDIR
 
 #Keep track of error types for log
 errorTypes = ["none",
@@ -25,7 +26,6 @@ for filen in os.listdir(TEMPDIR): #Fill this with path - TEMPDIR
     faultyFile = (False, 0)
     if !file.endswith(".csv"): #If not csv, it's a fault
         #Log the error, filename, move on
-        # TODO: sort out errorlog
         pass
     else: #Open it and check for internal faults
         with open(filen) as csv_f:
@@ -60,6 +60,7 @@ for filen in os.listdir(TEMPDIR): #Fill this with path - TEMPDIR
             shutil.copy(TEMPDIR+"\"+filen, DESTDIR)
         else:
             logError(filen, faultyFile[1]) # log the error
+            shutil.copy(TEMPDIR+"\"+filen, FAULTDIR)
 
 
 def logError(filename, errortype):
