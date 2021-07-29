@@ -64,7 +64,7 @@ def processFiles:
                 shutil.copy(TEMPDIR+"\"+filen, FAULTDIR)
 
 
-def logError(filename, errortype):
+def logError(filename, errortype): #Log files 
     log = open(LOGFILE, "a")
     log.write("ERROR:", filename, ":", errortype)
     log.close()
