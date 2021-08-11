@@ -26,6 +26,7 @@ def download(files, conn):
     # of failure to connect it returns false so as to alert the system of a
     # failure to connect
 def connect(address, port, login, password):
+    print("Hi")
     try:
         conn = ftplib.FTP(address, login, password)
         return conn

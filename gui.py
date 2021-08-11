@@ -9,6 +9,7 @@ from tkinter import *
 from tkinter import ttk
 from tkcalendar import Calendar
 from datetime import datetime as dt
+import ftpService
 
 #Constants
 PROGRAM_NAME = "Ernest-Badger"
@@ -38,9 +39,32 @@ class MainWindow(): #Class for the Main Window
 
     def submit(self):
         date = self.calendar.get_date() #Gets the date selected in the GUI calendar
+        print(date)
         self.message.configure(text = f"Data requested for: {date}") #Displays a success message in the GUI
-        r_date = dt.strptime(date,"%d/%m/%Y").strftime("%Y%m%d") #Converts the date into the same format as the CSV file naming scheme
-        print(f"Request data for: {r_date}") #This is where a request to the backend will be made
+        #r_date = dt.strptime(date,"%d/%m/%Y").strftime("%Y%m%d") #Converts the date into the same format as the CSV file naming scheme
+        #print(f"Request data for: {r_date}") #This is where a request to the backend will be made
+        print(date)
+        conn = ftpService.connect("87.115.189.50", "21", "Roadrunner", "M33pM33p")
+        if conn == False:
+            print("Error connecting to server")
+            exit()
+        print("Connected to server")
+        datesplit = date.split("/")
+        month = str(datesplit[0])
+        day = str(datesplit[1])
+        year = "20"+str(datesplit[2])
+        if len(month) == 1:
+            month = "0"+month
+        if len(day) == 1:
+            day = "0"+day
+        print(year, month, day)
+        files = ftpService.find(conn, None, year, month, day, False, False, False)
+        try:
+            ftpService.download(files, conn)
+        except TypeError:
+            print("No files found")
+        conn.quit()
+
 
 #If the program is running as a standalone script (not as part of another script)
 if __name__ == "__main__":
