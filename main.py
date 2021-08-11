@@ -11,7 +11,9 @@ def download(files, conn):
     os.chdir(wd+"/allFiles") #Changing the working directory to files so the files are stored in the right place
     for filename in files:
         with open(filename, "wb") as file:
+            print("Downloading ", filename)
             conn.retrbinary(f"RETR {filename}", file.write)
+            print("Downloaded ", filename)
     os.chdir(wd)
 
 # Function to establish connection to the server
@@ -38,11 +40,33 @@ def connect(address, port, login, password):
 # day - The day to search
 # hour - The hour to search
 # second - The second to search
-def find(conn, instruction, year, month, day, hour, minute, second):
+def find(conn, instruction, year=None, month=None, day=None, hour=None, minute=None, second=None):
     files = []
     if instruction == "all":
         for file in conn.nlst():
-            files.add(file)
+            files.append(file)
+    else:
+        print("Checking")
+        for file in conn.nlst():
+            fileraw = file
+            for character in file:
+                if character not in ("1234567890"):
+                    file = file.replace(character, '')
+            fileyear = file[0:4]
+            filemonth = file[4:6]
+            fileday = file[6:8]
+            filehour = file[8:10]
+            fileminute = file[10:12]
+            filesecond = file[12:14]
+            if year is False or year == fileyear:
+                if month is False or month == filemonth:
+                    if day is False or day == fileday:
+                        if hour is False or hour == filehour:
+                            if minute is False or minute == fileminute:
+                                if second is False or second == filesecond:
+                                    print("Found ", fileraw)
+                                    files.append(fileraw)
+    return files
 
 def gui():
     #runs the program with the graphical interface
@@ -54,8 +78,8 @@ def main():
         print("Error connecting to server")
         exit()
     print("Connection successful!!")
-    yearActive = monthActive = dayActive = hourActive = secondActive = False
-    year = month = day = hour = second = False
+    yearActive = monthActive = dayActive = hourActive = minuteActive = secondActive = False
+    year = month = day = hour = minute = second = False
     instruction = "selected"
     for i in range(5, len(sys.argv)):
         if sys.argv[i] == "--help":
@@ -72,6 +96,8 @@ def main():
                 day = sys.argv[i]
             elif hourActive == True and hour == False:
                 hour = sys.argv[i]
+            elif minuteActive ==True and minute == False:
+                minute = sys.argv[i]
             elif secondActive == True and second == False:
                 second = sys.argv[i]
             if "y" in sys.argv[i]:
@@ -82,15 +108,22 @@ def main():
                 dayActive = True
             if "h" in sys.argv[i]:
                 hourActive = True
+            if "m" in sys.argv[i]:
+                minuteActive = True
             if "s" in sys.argv[i]:
                 secondActive = True
             elif "a" in sys.argv[i]:
                 instruction = "all"
+            '''
             else:
-                today = date.today().split("-")
+                today = str(date.today()).split("-")
                 year, month, day = today[0], today[1], today[2]
-    files = find(conn, instruction, year, month, day, hour, second)
-    download(files, conn)
+            '''
+    files = find(conn, instruction, year, month, day, hour, minute, second)
+    try:
+        download(files, conn)
+    except TypeError:
+        print("No files in specified range")
     conn.quit()
 
 if __name__ == '__main__':
