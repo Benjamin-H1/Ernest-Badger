@@ -12,6 +12,10 @@ def processDownloads():
     FAULTDIR = "faultyFiles"
     LOGFILE = "log.txt"
 
+    if not os.path.isdir(DESTDIR):
+        os.makedirs(DESTDIR)
+    if not os.path.isdir(FAULTDIR):
+        os.makedirs(FAULTDIR)
     #for zippedFile in os.listdir(ZIP):
     #    with ZipFile(zippedFile, 'r') as zip:
     #        zip.extractall(TEMPDIR) #Fill this with a path to a temp directory to store all files - TEMPDIR
