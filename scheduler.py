@@ -8,15 +8,18 @@ class Scheduler:
 
     def schedule(self, target, task):
         self.tasks.append(task)
-        self.date.append(target)
+        self.dates.append(target)
 
-    def check(self, today):
+    def check(self):
         dt = datetime.datetime.today()
-        dtToday = str(dt.year)+str(dt.month)+str(dt.day)
+        today = str(dt.year)+str(dt.month)+str(dt.day)
+        print("Today: ", today)
         for i in range (0, len(self.dates)):
+            date = self.dates[i]
+            print("Target: ", date)
             if self.dates[i] == today:
                 job = self.tasks[i]
-                self.tasks.remove(i)
-                self.dates.remove(i)
+                self.tasks.remove(job)
+                self.dates.remove(date)
                 return job
         return None

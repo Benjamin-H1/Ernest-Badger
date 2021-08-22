@@ -15,11 +15,11 @@ def main(instructions):
     yearActive = monthActive = dayActive = hourActive = minuteActive = secondActive = False
     year = month = day = hour = minute = second = False
     instruction = "selected"
-    for i in range(5, len(instructions)):
+    for i in range(0, len(instructions)):
         if instructions[i] == "--help":
-            print("Use -p to set when to downloadeg -p 20210822 whould set a target schedule of 22nd of August 2021")
+            print("Use -p to set when to download. eg -p 2021822 would set a target schedule of 22nd of August 2021. DO NOT PUT 0s BEFORE NUMBERS")
             print("Use -ymdhs to declare year, month, day, hour second respectively")
-            print("Example usage:\npython3 ftpService.py {IP} {port} {username} {password} -p 20210822 -ydm 2021 07 01")
+            print("Example usage:\npython3 ftpService.py {IP} {port} {username} {password} -p 2021822 -ydm 2021 07 01")
             print("Would get files from the first of July 2021\n")
             print("Use --help to bring up this prompt")
         elif instructions[i] == "-p":
@@ -56,6 +56,7 @@ def main(instructions):
                 today = str(date.today()).split("-")
                 year, month, day = today[0], today[1], today[2]
             '''
+
     if targetday == False:
         files = ftpserv.find(conn, instruction, year, month, day, hour, minute, second)
         try:
@@ -65,11 +66,11 @@ def main(instructions):
     else:
         task = [instruction, year, month, day, hour, minute, second]
         sched =scheduler.Scheduler()
-        sched.schedule(targetday, instructions, task)
+        sched.schedule(targetday, task)
         while True:
             doit = sched.check()
             if doit is not None:
-                files = ftpserv.find(conn, instruction, year, month, day, hour, minute, second)
+                files = ftpserv.find(conn, doit[0], doit[1], doit[2], doit[3], doit[4], doit[5], doit[6])
                 try:
                     ftpserv.download(files, conn)
                 except TypeError:

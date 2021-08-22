@@ -9,7 +9,7 @@ class FTPDownload:
     # Procedure to download all files specified
     # files - List of files on server to be downloaded
     # conn - The connection to the server to download from
-    def download(files, conn):
+    def download(self, files, conn):
         wd = os.getcwd()
         os.chdir(wd+"/allFiles") #Changing the working directory to files so the files are stored in the right place
         for filename in files:
@@ -28,7 +28,7 @@ class FTPDownload:
     # Returns the connection for use in scanning and downloading files, in the event
         # of failure to connect it returns false so as to alert the system of a
         # failure to connect
-    def connect(address, port, login, password):
+    def connect(self, address, port, login, password):
         try:
             conn = ftplib.FTP(address, login, password)
             return conn
@@ -43,7 +43,7 @@ class FTPDownload:
     # day - The day to search
     # hour - The hour to search
     # second - The second to search
-    def find(conn, instruction, year=None, month=None, day=None, hour=None, minute=None, second=None):
+    def find(self, conn, instruction, year=None, month=None, day=None, hour=None, minute=None, second=None):
         files = []
         if instruction == "all":
             for file in conn.nlst():
