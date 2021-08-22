@@ -1,6 +1,7 @@
 import ftplib
 import os
 import sys
+import scheduler
 from datetime import date
 
 
@@ -28,7 +29,6 @@ class FTPDownload:
         # of failure to connect it returns false so as to alert the system of a
         # failure to connect
     def connect(address, port, login, password):
-        print("Hi")
         try:
             conn = ftplib.FTP(address, login, password)
             return conn
@@ -70,74 +70,3 @@ class FTPDownload:
                                         print("Found ", fileraw)
                                         files.append(fileraw)
         return files
-
-    def gui():
-        #runs the program with the graphical interface
-        pass
-
-    def main():
-        conn = connect(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
-        if conn == False:
-            print("Error connecting to server")
-            exit()
-        print("Connection successful!!")
-        yearActive = monthActive = dayActive = hourActive = minuteActive = secondActive = False
-        year = month = day = hour = minute = second = False
-        instruction = "selected"
-        for i in range(5, len(sys.argv)):
-            if sys.argv[i] == "--help":
-                print("Use -ymdhs to declare year, month, day, hour second respectively")
-                print("Example usage:\npython3 main.py {IP} {port} {username} {password} -ydm 2021 07 01")
-                print("Would get files from the first of July 2021\n")
-                print("Use --help to bring up this prompt")
-            else: #Since the word help has the letter h in it which I wish to use to specify the hour, I have contained the other checks inside an else statement
-                if yearActive == True and year == False:
-                    year = sys.argv[i]
-                elif monthActive == True and month == False:
-                    month = sys.argv[i]
-                elif dayActive == True and day == False:
-                    day = sys.argv[i]
-                elif hourActive == True and hour == False:
-                    hour = sys.argv[i]
-                elif minuteActive ==True and minute == False:
-                    minute = sys.argv[i]
-                elif secondActive == True and second == False:
-                    second = sys.argv[i]
-                if "y" in sys.argv[i]:
-                    yearActive = True
-                if "m" in sys.argv[i]:
-                    monthActive = True
-                if "d" in sys.argv[i]:
-                    dayActive = True
-                if "h" in sys.argv[i]:
-                    hourActive = True
-                if "m" in sys.argv[i]:
-                    minuteActive = True
-                if "s" in sys.argv[i]:
-                    secondActive = True
-                elif "a" in sys.argv[i]:
-                    instruction = "all"
-                '''
-                else:
-                    today = str(date.today()).split("-")
-                    year, month, day = today[0], today[1], today[2]
-                '''
-        files = find(conn, instruction, year, month, day, hour, minute, second)
-        try:
-            download(files, conn)
-        except TypeError:
-            print("No files in specified range")
-        conn.quit()
-
-if __name__ == '__main__':
-    #Check if run as a GUI or not
-    #if GUI, run gui()
-    #else check the arguments and extract relevant information such as:
-        #IP address
-        #port
-        #login
-        #password
-        #date/time for scheduled download
-        #date/time of data to be retrieved
-    #for now I am going to rather irresponsibly hard code the login details
-    main()
