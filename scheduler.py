@@ -17,9 +17,12 @@ class Scheduler:
         for i in range (0, len(self.dates)):
             date = self.dates[i]
             print("Target: ", date)
+            if date < today:
+                exit()
             if self.dates[i] == today:
                 job = self.tasks[i]
                 self.tasks.remove(job)
                 self.dates.remove(date)
                 return job
+            if self.dates[i] < today
         return None
