@@ -2,6 +2,7 @@ import ftplib
 import os
 import sys
 import scheduler
+import fileprocessing
 from datetime import date
 
 
@@ -18,6 +19,7 @@ class FTPDownload:
                 conn.retrbinary(f"RETR {filename}", file.write)
                 print("Downloaded ", filename)
         os.chdir(wd)
+        fileprocessing.processDownloads()
 
     # Function to establish connection to the server
     # address - The IP address of the server
