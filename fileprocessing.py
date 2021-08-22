@@ -75,7 +75,7 @@ def logError(filename, errortype): #Log files
 "a batch contains invalid reading"]
     LOGFILE = "log.txt"
     log = open(LOGFILE, "a")
-    stri = "ERROR: " + filename + " : " + errorTypes[errortype]
+    stri = "ERROR: " + filename + " : " + errorTypes[errortype] + "\n"
     log.write(stri)
     log.close()
 
