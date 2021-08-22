@@ -29,6 +29,8 @@ def processDownloads():
         if not filen.endswith(".csv"): #If not csv, it's a fault
             #Log the error, filename, move on
             faultyFile=(True, 1)
+            logError(filen, faultyFile[1]) # log the error
+            shutil.copy(TEMPDIR+"\\"+filen, FAULTDIR)
             pass
         else: #Open it and check for internal faults
             with open(TEMPDIR + "\\" + filen) as csv_f:
