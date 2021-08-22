@@ -80,6 +80,3 @@ def logError(filename, errortype): #Log files
     stri = "ERROR: " + filename + " : " + errorTypes[errortype] + "\n"
     log.write(stri)
     log.close()
-
-
-processDownloads()
