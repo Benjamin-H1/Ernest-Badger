@@ -3,10 +3,12 @@ import time
 import sys
 import scheduler
 
-
+# This is where the program is run from if using the CLI
+# It's very basic but works (something of a rush job as it was originally strictly utilitarian)
 def main(instructions):
     ftpserv = ftpService.FTPDownload()
     targetday = False
+    # Connect to the server using the details provided by the command line
     conn = ftpserv.connect(instructions[1], instructions[2], instructions[3], instructions[4])
     if conn == False:
         print("Error connecting to server")
@@ -63,11 +65,11 @@ def main(instructions):
             ftpserv.download(files, conn)
         except TypeError:
             print("No files in specified range")
-    else:
+    else: #This means the user has specified a date for the download to take place
         task = [instruction, year, month, day, hour, minute, second]
         sched =scheduler.Scheduler()
         sched.schedule(targetday, task)
-        while True:
+        while True: # The program enters a while loop until the date is met
             doit = sched.check()
             if doit is not None:
                 files = ftpserv.find(conn, doit[0], doit[1], doit[2], doit[3], doit[4], doit[5], doit[6])
