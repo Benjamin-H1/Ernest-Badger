@@ -15,7 +15,7 @@ def main(instructions):
     yearActive = monthActive = dayActive = hourActive = minuteActive = secondActive = False
     year = month = day = hour = minute = second = False
     instruction = "selected"
-    for i in range(0, len(instructions)):
+    for i in range(5, len(instructions)):
         if instructions[i] == "--help":
             print("Use -p to set when to download. eg -p 2021822 would set a target schedule of 22nd of August 2021. DO NOT PUT 0s BEFORE NUMBERS")
             print("Use -ymdhs to declare year, month, day, hour second respectively")
