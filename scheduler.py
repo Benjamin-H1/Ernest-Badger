@@ -35,5 +35,5 @@ class Scheduler:
                 self.tasks.remove(job)
                 self.dates.remove(date)
                 return job
-            if self.dates[i] < today
+#            if self.dates[i] < today:
         return None
