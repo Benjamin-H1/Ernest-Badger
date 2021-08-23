@@ -44,7 +44,8 @@ class MainWindow(): #Class for the Main Window
         #r_date = dt.strptime(date,"%d/%m/%Y").strftime("%Y%m%d") #Converts the date into the same format as the CSV file naming scheme
         #print(f"Request data for: {r_date}") #This is where a request to the backend will be made
         print(date)
-        conn = ftpService.connect("87.115.189.50", "21", "Roadrunner", "M33pM33p")
+        ftpserv = ftpService.FTPDownload()
+        conn = ftpserv.connect("87.115.189.50", "21", "Roadrunner", "M33pM33p")
         if conn == False:
             print("Error connecting to server")
             exit()
@@ -58,9 +59,9 @@ class MainWindow(): #Class for the Main Window
         if len(day) == 1:
             day = "0"+day
         print(year, month, day)
-        files = ftpService.find(conn, None, year, month, day, False, False, False)
+        files = ftpserv.find(conn, None, year, month, day, False, False, False)
         try:
-            ftpService.download(files, conn)
+            ftpserv.download(files, conn)
         except TypeError:
             print("No files found")
         conn.quit()
